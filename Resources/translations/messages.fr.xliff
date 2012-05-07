@@ -30,6 +30,14 @@
                 <source>New term</source>
                 <target>Nouveau terme</target>
             </trans-unit>
+            <trans-unit id="8">
+                <source>Term</source>
+                <target>Terme</target>
+            </trans-unit>
+            <trans-unit id="9">
+                <source>Definition</source>
+                <target>Définition</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
