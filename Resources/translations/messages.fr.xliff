@@ -6,10 +6,30 @@
                 <source>Glossary</source>
                 <target>Glossaire</target>
             </trans-unit>
-            <trans-unit id="1">
+            <trans-unit id="2">
                 <source>Top</source>
                 <target>Haut</target>
-            </trans-unit>            
+            </trans-unit>
+            <trans-unit id="3">
+                <source>Modify</source>
+                <target>Modifier</target>
+            </trans-unit>
+            <trans-unit id="4">
+                <source>Delete</source>
+                <target>Supprimer</target>
+            </trans-unit>
+            <trans-unit id="5">
+                <source>Save</source>
+                <target>Enregistrer</target>
+            </trans-unit>
+            <trans-unit id="6">
+                <source>Cancel</source>
+                <target>Annuler</target>
+            </trans-unit>
+            <trans-unit id="7">
+                <source>New term</source>
+                <target>Nouveau terme</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
