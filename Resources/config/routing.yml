@@ -1,0 +1,9 @@
+isics_glossary_list:
+    pattern:      /{id}
+    defaults:     { _controller: IsicsGlossaryBundle:Main:list, id: null }
+    requirements: { id: \d+ }
+
+isics_glossary_delete:    
+    pattern:      /{id}/delete
+    defaults:     { _controller: IsicsGlossaryBundle:Main:delete }
+    requirements: { id: \d+ }

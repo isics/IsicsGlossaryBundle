@@ -1,0 +1,76 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}
+    {% trans %}Glossary{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}Glossary{% endtrans %}</h1>
+
+    <ul id="glossary_letters">
+    {% for letter, terms in letters %}
+        {% if terms|length > 0 %}
+            <li><a href="#glossary_letter-{{ letter|lower }}">{{ letter }}</a></li>
+        {% else %}
+            <li>{{ letter }}</li>
+        {% endif %}
+    {% endfor %}
+    </ul>
+    
+    {% if is_granted('ROLE_GLOSSARY_ADMIN') %}
+        <form action="{{ path('isics_glossary_list', { 'id' : id }) }}" method="post" {{ form_enctype(form) }}>
+            {{ form_errors(form) }}    
+            {% for letter, terms in letters %}
+                {% if terms|length > 0 %}
+                    <h2 id="glossary_letter-{{ letter|lower }}">{{ letter }}</h2>
+                    <dl>
+                    {% for term in terms %}
+                        {% if id is not null and term.id == id %}
+                            <dt>
+                                {{ form_errors(form.term) }}
+                                {{ form_widget(form.term) }}
+                                <input type="submit" value="{% trans %}Save{% endtrans %}" />
+                                <a href="{{ path('isics_glossary_list') }}">{% trans %}Cancel{% endtrans %}</a>                            
+                            </dt>
+                            <dd>
+                                {{ form_errors(form.definition) }}
+                                {{ form_widget(form.definition) }}
+                            </dd>                    
+                        {% else %}
+                            <dt id="glossary_term{{ term.id }}">
+                                {{ term }}
+                                <a href="{{ path('isics_glossary_list', { 'id': term.id }) }}">{% trans %}Modify{% endtrans %}</a>
+                                <a href="{{ path('isics_glossary_delete', { 'id': term.id }) }}">{% trans %}Delete{% endtrans %}</a>
+                            </dt>
+                            <dd>{{ term.definition }}</dd>                
+                        {% endif %}
+                    {% endfor %}
+                    </dl>
+                    <p><a href="#glossary_letters">Top</a></p>
+                {% endif %}
+            {% endfor %}
+
+            {% if id is null %}
+                <h2>{% trans %}New term{% endtrans %}</h2>
+                {{ form_widget(form) }}
+                <input type="submit" value="{% trans %}Save{% endtrans %}" />
+            {% endif %}
+
+            {{ form_rest(form) }}
+        </form>
+    {% else %}
+        {% for letter, terms in letters %}
+            {% if terms|length > 0 %}
+                <h2 id="glossary_letter-{{ letter|lower }}">{{ letter }}</h2>
+                <dl>
+                {% for term in terms %}
+                    <dt id="glossary_term{{ term.id }}">{{ term }}</dt>
+                    <dd>{{ term.definition }}</dd>                
+                {% endfor %}
+                </dl>
+                <p><a href="#glossary_letters">Top</a></p>
+            {% endif %}
+        {% endfor %}    
+    {% endif %}
+
+{% endblock %}
