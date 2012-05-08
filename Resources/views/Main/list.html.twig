@@ -46,7 +46,7 @@
                         {% endif %}
                     {% endfor %}
                     </dl>
-                    <p><a href="#glossary_letters">Top</a></p>
+                    <p><a href="#glossary_letters">{% trans %}Back to top{% endtrans %}</a></p>
                 {% endif %}
             {% endfor %}
 
@@ -68,7 +68,7 @@
                     <dd>{{ term.definition }}</dd>                
                 {% endfor %}
                 </dl>
-                <p><a href="#glossary_letters">Top</a></p>
+                <p><a href="#glossary_letters">{% trans %}Back to top{% endtrans %}</a></p>
             {% endif %}
         {% endfor %}    
     {% endif %}

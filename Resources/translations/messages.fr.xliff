@@ -7,8 +7,8 @@
                 <target>Glossaire</target>
             </trans-unit>
             <trans-unit id="2">
-                <source>Top</source>
-                <target>Haut</target>
+                <source>Back to top</source>
+                <target>Haut de page</target>
             </trans-unit>
             <trans-unit id="3">
                 <source>Modify</source>
