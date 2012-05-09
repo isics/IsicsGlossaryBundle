@@ -8,7 +8,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\Routing\RouterInterface;
 
-class IsicsGlossaryListener {
+class GlossaryListener {
 
     protected $entityManager;
     protected $router;
@@ -39,10 +39,16 @@ class IsicsGlossaryListener {
     
     protected function injectGlossaryLinks(Response $response)
     {
+        $terms = $this->entityManager->getRepository('IsicsGlossaryBundle:Term')->findAllOrderedByTerm();
+
+        if (0 === count($terms)) {
+            return;
+        }
+
         $urls    = array();
         $pattern = array();
         $baseUrl = $this->router->generate('isics_glossary_list');
-        foreach ($this->entityManager->getRepository('IsicsGlossaryBundle:Term')->findAll() as $term) {
+        foreach ($terms as $term) {
             $termNorm        = preg_replace('/\s+/', ' ', strtoupper(trim($term->getTerm())));
             $pattern[]       = preg_replace('/ /', '\\s+', preg_quote($termNorm));
             $urls[$termNorm] = sprintf('%s#glossary_term%s', $baseUrl, $term->getId());
