@@ -22,7 +22,7 @@ class TermFormHandler
 
     public function process()
     {
-        if ('POST' === $this->request->getMethod()) {
+        if ('POST' === $this->request->getMethod() && $this->request->request->has($this->form->getName())) {
             $this->form->bindRequest($this->request);
             if ($this->form->isValid()) {
                 $this->doOnSuccess($this->form->getData());

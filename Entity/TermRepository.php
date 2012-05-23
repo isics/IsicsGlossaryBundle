@@ -2,6 +2,8 @@
 
 namespace Isics\GlossaryBundle\Entity;
 
+use Isics\Glossary\Model\Form\Search;
+
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -21,6 +23,25 @@ class TermRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery('SELECT t FROM IsicsGlossaryBundle:Term t ORDER BY t.term')
+            ->getResult();
+    }
+    
+    /**
+     * Returns terms found ordered alphabetically.
+     *
+     * @param String $keywords
+     * @return array
+     */
+    public function findByKeywordsAndOrderedByTerm($keywords)
+    {
+        return $this->getEntityManager()
+            ->createQuery('SELECT t
+                FROM IsicsGlossaryBundle:Term t 
+                WHERE t.term LIKE :keywords
+                OR t.definition LIKE :keywords
+                ORDER BY t.term
+            ')
+            ->setParameter('keywords', '%'.$keywords.'%')
             ->getResult();
     }
 }

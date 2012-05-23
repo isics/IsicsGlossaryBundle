@@ -5,15 +5,14 @@ namespace Isics\GlossaryBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
 
-class TermType extends AbstractType
+class SearchType extends AbstractType
 {
     /**
      * @see Symfony\Component\Form\AbstractType
      */
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('term', 'text');
-        $builder->add('definition', 'textarea');
+        $builder->add('keywords', 'text', array('required' => false));
     }
     
     /**
@@ -21,7 +20,7 @@ class TermType extends AbstractType
      */
     public function getDefaultOptions(array $options)
     {
-        return array('data_class' => 'Isics\GlossaryBundle\Entity\Term');
+        return array('data_class' => 'Isics\GlossaryBundle\Form\Model\Search');
     }
     
     /**
@@ -29,6 +28,6 @@ class TermType extends AbstractType
      */    
     public function getName()
     {
-        return 'isics_glossary_term';
+        return 'isics_glossary_search';
     }
 }

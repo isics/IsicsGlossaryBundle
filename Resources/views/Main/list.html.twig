@@ -7,6 +7,11 @@
 {% block body %}
     <h1>{% trans %}Glossary{% endtrans %}</h1>
 
+    <form action="{{ path('isics_glossary_list') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(searchForm) }}
+        <input type="submit" value="{% trans %}Search{% endtrans %}" />
+    </form>
+
     <ul id="glossary_letters">
     {% for letter, terms in letters %}
         {% if terms|length > 0 %}

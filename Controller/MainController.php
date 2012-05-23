@@ -2,8 +2,11 @@
 
 namespace Isics\GlossaryBundle\Controller;
 
+use Isics\GlossaryBundle\Form\Handler\SearchFormHandler;
 use Isics\GlossaryBundle\Form\Handler\TermFormHandler;
+use Isics\GlossaryBundle\Form\Model\Search;
 use Isics\GlossaryBundle\Form\Type\TermType;
+use Isics\GlossaryBundle\Form\Type\SearchType;
 use Isics\GlossaryBundle\Manager\TermManager;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +33,13 @@ class MainController extends Controller
             return $this->redirect($this->generateUrl('isics_glossary_list'));
         }
 
-        $terms = $repository->findAllOrderedByTerm();
+        $searchForm = $this->createForm(new SearchType(), new Search());
+        $searchFormHandler = new SearchFormHandler($searchForm, $request);
+        if ($searchFormHandler->process()) {
+            $terms = $repository->findByKeywordsAndOrderedByTerm($searchForm->getData()->getKeywords());
+        } else {
+            $terms = $repository->findAllOrderedByTerm();
+        }
         
         // Grouping terms by first letter
         $letters = array_fill_keys(range('A', 'Z'), array());
@@ -40,9 +49,10 @@ class MainController extends Controller
         }
 
         return $this->render('IsicsGlossaryBundle:Main:list.html.twig', array(
-            'id'      => $id,
-            'form'    => $form->createView(),
-            'letters' => $letters
+            'id'         => $id,
+            'form'       => $form->createView(),
+            'searchForm' => $searchForm->createView(),
+            'letters'    => $letters
         ));
     }
 
