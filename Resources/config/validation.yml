@@ -1,0 +1,6 @@
+Isics\GlossaryBundle\Entity\Term:
+    properties:
+        term:
+            - NotNull: ~
+        definition:
+            - NotNull: ~

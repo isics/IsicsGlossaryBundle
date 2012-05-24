@@ -25,14 +25,6 @@ class MainController extends Controller
         $termManager = new TermManager($this->getDoctrine()->getEntityManager());
         $repository  = $termManager->getRepository();
 
-        $term = (null !== $id) ? $repository->find($id) : $termManager->create();
-
-        $form        = $this->createForm(new TermType(), $term);
-        $formHandler = new TermFormHandler($form, $request, $termManager);
-        if ($formHandler->process()) {
-            return $this->redirect($this->generateUrl('isics_glossary_list'));
-        }
-
         $searchForm = $this->createForm(new SearchType(), new Search());
         $searchFormHandler = new SearchFormHandler($searchForm, $request);
         if ($searchFormHandler->process()) {
@@ -46,6 +38,14 @@ class MainController extends Controller
         foreach ($terms as $term) {
             $letter = strtoupper(substr($term, 0, 1));           
             $letters[$letter][] = $term;
+        }
+        
+        $term = (null !== $id) ? $repository->find($id) : $termManager->create();
+
+        $form        = $this->createForm(new TermType(), $term);
+        $formHandler = new TermFormHandler($form, $request, $termManager);
+        if ($formHandler->process()) {
+            return $this->redirect($this->generateUrl('isics_glossary_list'));
         }
 
         return $this->render('IsicsGlossaryBundle:Main:list.html.twig', array(
