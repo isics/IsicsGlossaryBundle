@@ -18,7 +18,7 @@ class GlossaryListener {
         $this->entityManager = $entity_manager;
         $this->router = $router;
     }
-    
+
     public function onKernelResponse(FilterResponseEvent $event)
     {
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
@@ -27,7 +27,7 @@ class GlossaryListener {
 
         $response = $event->getResponse();
         $request  = $event->getRequest();
-        
+
         if ($response->headers->has('Content-Type') && false === strpos($response->headers->get('Content-Type'), 'html')
             || 'html' !== $request->getRequestFormat()
         ) {
@@ -36,7 +36,7 @@ class GlossaryListener {
 
         $this->injectGlossaryLinks($response);
     }
-    
+
     protected function injectGlossaryLinks(Response $response)
     {
         $terms = $this->entityManager->getRepository('IsicsGlossaryBundle:Term')->findAllOrderedByTerm();
@@ -60,7 +60,7 @@ class GlossaryListener {
         // skip warnings cause HTML5 tags are not supported
         @$document->loadHTML($response->getContent());
         $xpath = new \DOMXPath($document);
-        $nodes = $xpath->query('body//text()[not(ancestor::a)]');
+        $nodes = $xpath->query('body//text()[not(ancestor::a) and not(ancestor::textarea)]');
         foreach ($nodes as $node) {
             $text     = $node->nodeValue;
             $hitCount = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
@@ -94,8 +94,8 @@ class GlossaryListener {
                   if ($i === $hitCount - 1) {  // last match, append remaining text
                         $suffix = substr($text, $offset);
                         $parent->insertBefore($document->createTextNode($suffix), $refNode);
-                  }    
-            }        
+                  }
+            }
         }
 
         $response->setContent($document->saveHTML());
