@@ -60,7 +60,7 @@ class GlossaryListener {
         // skip warnings cause HTML5 tags are not supported
         @$document->loadHTML($response->getContent());
         $xpath = new \DOMXPath($document);
-        $nodes = $xpath->query('body//text()[not(ancestor::a) and not(ancestor::textarea)]');
+        $nodes = $xpath->query('body//text()[not(ancestor::a) and not(ancestor::textarea) and not(ancestor::select)]');
         foreach ($nodes as $node) {
             $text     = $node->nodeValue;
             $hitCount = preg_match_all($pattern, $text, $matches, PREG_OFFSET_CAPTURE);
